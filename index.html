@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deutsch Aktiv V3</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#17202a;--muted:#697480;--line:#e1e5e9;--soft:#eef1f4;--good:#16803c;--bad:#c53030}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.app{max-width:900px;margin:auto;min-height:100vh}.top{height:68px;background:rgba(245,246,248,.94);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:4;padding:0 16px;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;font-size:20px}.brand span{font-size:13px;color:var(--muted);font-weight:500;margin-left:6px}
+main{padding:22px 16px 100px}.view{display:none}.view.active{display:block}h1{font-size:30px;line-height:1.1;margin:5px 0 7px}.lead{color:var(--muted);margin:0 0 22px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px}.stat b{font-size:25px;display:block}.stat span{font-size:12px;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:19px;margin-top:14px}.card h2{font-size:18px;margin:0 0 12px}
+.bigbtn{border:0;border-radius:13px;background:var(--text);color:#fff;padding:15px 18px;font-size:16px;font-weight:750;cursor:pointer}.secondary{background:var(--soft);color:var(--text)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:5}.navin{max-width:900px;margin:auto;display:grid;grid-template-columns:repeat(3,1fr)}.nav button{border:0;background:none;padding:11px 5px;color:#68737e;cursor:pointer;font-size:12px}.nav button b{display:block;font-size:18px}.nav button.active{color:var(--text);font-weight:750}
+.progress{height:8px;background:var(--soft);border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--text);width:0}
+.modes{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;cursor:pointer}.pill.active{background:var(--text);color:#fff}
+.qcard{text-align:center;padding:28px 20px}.qmeta{font-size:13px;color:var(--muted)}.question{font-size:35px;font-weight:800;margin:15px 0 5px;word-break:break-word}.hint{font-size:14px;color:var(--muted);margin-bottom:18px}
+input{width:100%;padding:14px;border:2px solid #d5dbe0;border-radius:12px;font-size:19px;outline:0}input:focus{border-color:#747d86}.check,.next{width:100%;margin-top:10px;padding:14px;border-radius:12px;font-weight:750;font-size:16px;cursor:pointer}.check{background:var(--text);color:#fff;border:0}.next{background:#fff;border:1px solid var(--line)}
+.result{text-align:left;padding:14px;border-radius:12px;margin-top:13px;display:none}.good{background:#edf9f1;border:1px solid #b9e5c7}.bad{background:#fff0f0;border:1px solid #efc4c4}.correctAns{font-weight:800;font-size:18px;margin-top:4px}
+.row{display:flex;gap:8px;align-items:center}.search{flex:1}.select{padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.words{display:grid;gap:8px;margin-top:13px}.word{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px;display:flex;justify-content:space-between;gap:10px}.wordmain{font-weight:750}.meaning{color:var(--muted);font-size:13px;margin-top:3px}.tag{font-size:11px;color:var(--muted);background:var(--soft);padding:5px 8px;border-radius:999px;height:max-content}
+.empty{text-align:center;color:var(--muted);padding:28px}.reviewitem{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.reviewitem:last-child{border:0}
+@media(max-width:650px){.grid{grid-template-columns:repeat(2,1fr)}.question{font-size:29px}.top{height:60px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand">🇩🇪 Deutsch Aktiv <span>V3</span></div><div id="topScore">0%</div></header>
+<main>
+<section id="home" class="view active">
+<h1>Belajar German secara aktif.</h1><p class="lead">Bukan cuma mengenali kata — lu harus bisa <b>mengeluarkannya dari kepala</b>.</p>
+<div class="grid">
+<div class="stat"><b id="sTotal">132</b><span>Total kata</span></div>
+<div class="stat"><b id="sPracticed">0</b><span>Sudah dilatih</span></div>
+<div class="stat"><b id="sMastered">0</b><span>Dikuasai</span></div>
+<div class="stat"><b id="sAccuracy">0%</b><span>Akurasi</span></div>
+</div>
+<div class="card"><h2>🚀 Mulai latihan</h2><p class="lead" style="margin-bottom:10px">10 soal acak. Fokus utama: Indonesia → Jerman.</p><button class="bigbtn" onclick="startPractice('id-de')">Mulai Sekarang →</button></div>
+<div class="card"><h2>📊 Progress</h2><div class="progress"><div class="fill" id="homeFill"></div></div><p class="lead" style="margin:8px 0 0" id="homeProgress">0 dari 132 kata sudah pernah dilatih.</p></div>
+</section>
+
+<section id="practice" class="view">
+<h1>🧠 Latihan</h1><p class="lead">Jawab sendiri. Kalau salah, kata itu bakal masuk daftar review.</p>
+<div class="modes">
+<button class="pill active" data-mode="id-de">🇮🇩 → 🇩🇪</button><button class="pill" data-mode="de-id">🇩🇪 → 🇮🇩</button><button class="pill" data-mode="article">Artikel</button><button class="pill" data-mode="conj">Konjugasi</button>
+</div>
+<div class="card qcard">
+<div class="qmeta" id="qmeta">Soal 1 dari 10</div><div class="question" id="question">memulai</div><div class="hint" id="hint">Ketik kata Jermannya.</div>
+<input id="answer" autocomplete="off" spellcheck="false" placeholder="Tulis jawaban...">
+<button class="check" id="check">Cek Jawaban</button>
+<div id="result" class="result"></div><button class="next" id="next" style="display:none">Soal Berikutnya →</button>
+<div style="margin-top:18px" class="progress"><div class="fill" id="practiceFill"></div></div>
+</div>
+</section>
+
+<section id="bank" class="view">
+<h1>📚 Bank Kata</h1><p class="lead">Semua 132 kata yang sedang lu pelajari.</p>
+<div class="card">
+<div class="row"><input class="search" id="search" placeholder="Cari kata atau arti..."><select class="select" id="filter"><option value="all">Semua</option><option value="verb">Verben</option><option value="noun">Nomen</option><option value="adj">Adjektive</option></select></div>
+<div class="words" id="words"></div>
+</div>
+</section>
+
+<section id="review" class="view">
+<h1>🔁 Review Kesalahan</h1><p class="lead">Kata yang pernah lu jawab salah akan dikumpulkan di sini.</p>
+<div class="card"><div id="reviewList"></div><div class="actions"><button class="bigbtn" id="reviewBtn">Latihan Kata Salah</button><button class="bigbtn secondary" id="clearReview">Reset Kesalahan</button></div></div>
+</section>
+</main>
+<nav class="nav"><div class="navin">
+<button class="active" data-view="home"><b>🏠</b>Home</button>
+<button data-view="practice"><b>🧠</b>Latihan</button>
+<button data-view="bank"><b>📚</b>Bank Kata</button>
+</div></nav>
+</div>
+<script>
+const V=[
+["antworten","menjawab"],["arbeiten","bekerja"],["backen","memanggang"],["baden","mandi/berendam"],["beginnen","memulai"],["bekommen","mendapatkan/menerima"],["benutzen","menggunakan"],["bleiben","tetap tinggal/tetap berada"],["brauchen","membutuhkan"],["bringen","membawa"],["buchstabieren","mengeja"],["duschen","mandi dengan shower"],["sich entschuldigen","meminta maaf"],["erklären","menjelaskan"],["erzählen","menceritakan"],["essen","makan (orang)"],["fahren","bepergian dengan kendaraan/mengemudi"],["finden","menemukan"],["fragen","bertanya"],["fressen","makan (hewan)"],["frühstücken","sarapan"],["geben","memberi"],["gehen","pergi"],["glauben","percaya"],["haben","mempunyai"],["halten","memegang/menahan/berhenti"],["heißen","bernama/disebut"],["helfen","membantu"],["hören","mendengar/mendengarkan"],["kaufen","membeli"],["kennen","mengenal"],["kochen","memasak"],["kommen","datang"],["laufen","berjalan/berlari"],["leben","hidup"],["lernen","belajar"],["lesen","membaca"],["lieben","mencintai"],["machen","membuat/melakukan"],["meinen","berpendapat/bermaksud"],["nehmen","mengambil"],["öffnen","membuka"],["operieren","mengoperasi/beroperasi"],["reden","berbicara"],["rennen","berlari"],["sagen","mengatakan"],["schlafen","tidur"],["singen","bernyanyi"],["spielen","bermain"],["sprechen","berbicara"],["stehen","berdiri"],["studieren","kuliah/menempuh studi"],["suchen","mencari"],["treffen","bertemu/menemui"],["trinken","minum"],["üben","berlatih"],["waschen","mencuci"],["wechseln","mengganti/berpindah"],["wissen","tahu/mengetahui"],["wohnen","tinggal"]];
+const N=[["die Adresse","alamat"],["der Arzt / die Ärztin","dokter"],["das Auto","mobil"],["der Ball","bola"],["der Brief","surat"],["das Buch","buku"],["die Eltern","orang tua"],["das Essen","makanan"],["die Familie","keluarga"],["der Fisch","ikan"],["die Frau","wanita/istri"],["der Freund / die Freundin","teman/pacar"],["das Geld","uang"],["das Gemüse","sayuran"],["das Hähnchen","ayam"],["das Haus","rumah"],["der Hund","anjing"],["die Katze","kucing"],["das Kind","anak"],["die Kirche","gereja"],["die Küche","dapur"],["der Kuchen","kue"],["die Lampe","lampu"],["die Leute","orang-orang"],["das Mädchen","gadis/anak perempuan"],["der Mann","pria/suami"],["der Markt","pasar"],["das Mehl","tepung"],["die Miete","sewa"],["der Minister","menteri"],["das Mittagessen","makan siang"],["die Mitte","tengah"],["die Möglichkeit","kemungkinan/kesempatan"],["das Motorrad","sepeda motor"],["die Mutter","ibu"],["die Mütze","topi"],["die Nachricht","pesan/berita"],["der Passagier","penumpang"],["die Schule","sekolah"],["die Stadt","kota"],["das Studium","studi/kuliah"],["der Stuhl","kursi"],["der Tag","hari"],["der Tisch","meja"],["die Tochter","anak perempuan"],["der Tod","kematian"],["der/die Verwandte","kerabat"],["der Vogel","burung"],["der Vorname","nama depan"],["das Wetter","cuaca"],["die Woche","minggu"],["die Zeit","waktu"]];
+const A=[["alt","tua/lama"],["berufstätig","bekerja/memiliki pekerjaan"],["billig","murah"],["frei","bebas/tersedia/libur"],["geradeaus","lurus ke depan"],["geschieden","bercerai"],["groß","besar"],["gut","baik"],["klein","kecil"],["ledig","lajang"],["links","kiri"],["neu","baru"],["recht","benar/adil/tepat"],["schlecht","buruk/jelek"],["stark","kuat"],["süß","manis"],["teuer","mahal"],["verheiratet","menikah"],["wenig","sedikit"],["wichtig","penting"]];
+const C={antworten:["antworte","antwortest","antwortet"],arbeiten:["arbeite","arbeitest","arbeitet"],beginnen:["beginne","beginnst","beginnt"],bekommen:["bekomme","bekommst","bekommt"],bleiben:["bleibe","bleibst","bleibt"],brauchen:["brauche","brauchst","braucht"],fahren:["fahre","fährst","fährt"],essen:["esse","isst","isst"],geben:["gebe","gibst","gibt"],gehen:["gehe","gehst","geht"],haben:["habe","hast","hat"],heißen:["heiße","heißt","heißt"],helfen:["helfe","hilfst","hilft"],laufen:["laufe","läufst","läuft"],lesen:["lese","liest","liest"],nehmen:["nehme","nimmst","nimmt"],sprechen:["spreche","sprichst","spricht"],stehen:["stehe","stehst","steht"],treffen:["treffe","triffst","trifft"],wissen:["weiß","weißt","weiß"],schlafen:["schlafe","schläfst","schläft"],trinken:["trinke","trinkst","trinkt"]};
+
+const all=[...V.map(x=>({...x,cat:"verb"})),...N.map(x=>({...x,cat:"noun"})),...A.map(x=>({...x,cat:"adj"}))];
+let data=JSON.parse(localStorage.getItem("deutschV3")||'{"seen":{},"correct":{},"wrong":{},"total":0,"right":0}');
+let mode="id-de",pool=[],qi=0,sessionRight=0,sessionTotal=0;
+
+function norm(s){return s.toLowerCase().trim().normalize("NFD").replace(/[\\u0300-\\u036f]/g,"").replace(/ß/g,"ss").replace(/[^a-z0-9äöüß/ -]/g,"").replace(/\\s+/g," ")}
+function save(){localStorage.setItem("deutschV3",JSON.stringify(data));updateStats()}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function updateStats(){
+ const seen=Object.keys(data.seen).length, mastered=Object.keys(data.correct).filter(k=>data.correct[k]>=3).length;
+ const acc=data.total?Math.round(data.right/data.total*100):0;
+ ["sPracticed","sMastered","sAccuracy"].forEach(()=>{});
+ document.getElementById("sPracticed").textContent=seen;document.getElementById("sMastered").textContent=mastered;document.getElementById("sAccuracy").textContent=acc+"%";document.getElementById("topScore").textContent=acc+"%";
+ document.getElementById("homeFill").style.width=(seen/132*100)+"%";document.getElementById("homeProgress").textContent=`${seen} dari 132 kata sudah pernah dilatih.`;
+}
+function showView(v){document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));document.getElementById(v).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.view===v));if(v==="bank")renderBank();if(v==="review")renderReview()}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>showView(b.dataset.view));
+document.querySelectorAll(".pill").forEach(b=>b.onclick=()=>{document.querySelectorAll(".pill").forEach(x=>x.classList.remove("active"));b.classList.add("active");startPractice(b.dataset.mode)});
+
+function startPractice(m="id-de", review=false){
+ mode=m;showView("practice");
+ let base=review?all.filter(x=>data.wrong[x[0]]):all;
+ if(mode==="conj")base=base.filter(x=>C[x[0]]);
+ pool=shuffle(base).slice(0,10);qi=0;sessionRight=0;sessionTotal=0;renderQ();
+}
+function renderQ(){
+ if(!pool.length){document.getElementById("question").textContent="Belum ada kata review 🎉";return}
+ const x=pool[qi], q=document.getElementById("question"),hint=document.getElementById("hint");
+ document.getElementById("qmeta").textContent=`Soal ${qi+1} dari ${pool.length}`;
+ document.getElementById("answer").value="";document.getElementById("answer").disabled=false;document.getElementById("result").style.display="none";document.getElementById("check").style.display="block";document.getElementById("next").style.display="none";document.getElementById("practiceFill").style.width=(qi/pool.length*100)+"%";
+ if(mode==="id-de"){q.textContent=x[1];hint.textContent="Ketik kata Jermannya."}
+ else if(mode==="de-id"){q.textContent=x[0];hint.textContent="Ketik arti Indonesianya."}
+ else if(mode==="article"){q.textContent=x[0].replace(/^der |^die |^das /,"");hint.textContent="Ketik der, die, atau das."}
+ else{q.textContent=x[0];hint.textContent="Ketik bentuknya, contoh: ich gehe."}
+ document.getElementById("answer").focus();
+}
+function check(){
+ const x=pool[qi],ans=norm(document.getElementById("answer").value);let ok=false;
+ if(mode==="id-de")ok=x[0].split("/").some(v=>norm(v)===ans)||(x[0]==="sich entschuldigen"&&ans==="entschuldigen");
+ if(mode==="de-id")ok=x[1].split("/").some(v=>norm(v)===ans||norm(v).includes(ans)||ans.includes(norm(v)));
+ if(mode==="article")ok=x[0].split(" ")[0].split("/").includes(ans);
+ if(mode==="conj"){let m=ans.match(/^(ich|du|er|sie|es) (.+)$/);if(m){let p={ich:0,du:1,er:2,sie:2,es:2}[m[1]];ok=norm(m[2])===norm(C[x[0]][p])}}
+ data.seen[x[0]]=1;data.total++;if(ok){sessionRight++;data.right++;data.correct[x[0]]=(data.correct[x[0]]||0)+1;delete data.wrong[x[0]]}else data.wrong[x[0]]=1;save();
+ const r=document.getElementById("result");r.className="result "+(ok?"good":"bad");r.style.display="block";r.innerHTML=(ok?"✅ <b>Benar!</b>":"❌ <b>Belum benar.</b>")+`<div>Jawaban:</div><div class="correctAns">${expected(x)}</div>`;
+ document.getElementById("answer").disabled=true;document.getElementById("check").style.display="none";document.getElementById("next").style.display="block";document.getElementById("practiceFill").style.width=((qi+1)/pool.length*100)+"%";
+}
+function expected(x){if(mode==="id-de")return x[0];if(mode==="de-id")return x[1];if(mode==="article")return x[0].split(" ")[0];return `ich ${C[x[0]][0]} · du ${C[x[0]][1]} · er/sie/es ${C[x[0]][2]}`}
+document.getElementById("check").onclick=check;
+document.getElementById("answer").addEventListener("keydown",e=>{if(e.key==="Enter"){if(document.getElementById("next").style.display!=="none")document.getElementById("next").click();else check()}});
+document.getElementById("next").onclick=()=>{if(qi+1<pool.length){qi++;renderQ()}else{document.getElementById("question").textContent=`Selesai 🎉 ${sessionRight}/${pool.length}`;document.getElementById("hint").textContent=`Akurasi sesi: ${Math.round(sessionRight/pool.length*100)}%`;document.getElementById("answer").style.display="none";document.getElementById("next").textContent="Latihan Lagi";document.getElementById("next").onclick=()=>{document.getElementById("answer").style.display="block";startPractice(mode)}}};
+
+function renderBank(){
+ const q=norm(document.getElementById("search").value),f=document.getElementById("filter").value,box=document.getElementById("words");
+ const arr=all.filter(x=>(f==="all"||x.cat===f)&&(!q||norm(x[0]).includes(q)||norm(x[1]).includes(q)));
+ box.innerHTML=arr.map(x=>`<div class="word"><div><div class="wordmain">${x[0]}</div><div class="meaning">${x[1]}</div></div><span class="tag">${x.cat==="verb"?"Verb":x.cat==="noun"?"Nomen":"Adjektiv"}${data.correct[x[0]]>=3?" · ✓":""}</span></div>`).join("")||'<div class="empty">Kata tidak ditemukan.</div>';
+}
+document.getElementById("search").oninput=renderBank;document.getElementById("filter").onchange=renderBank;
+function renderReview(){
+ const keys=Object.keys(data.wrong),box=document.getElementById("reviewList");
+ box.innerHTML=keys.length?keys.map(k=>{let x=all.find(a=>a[0]===k);return `<div class="reviewitem"><div><b>${x?x[0]:k}</b><div class="meaning">${x?x[1]:""}</div></div><span class="tag">perlu review</span></div>`}).join(""):'<div class="empty">🎉 Belum ada kesalahan. Mantap.</div>';
+}
+document.getElementById("reviewBtn").onclick=()=>{if(Object.keys(data.wrong).length)startPractice("id-de",true);else alert("Belum ada kata yang perlu direview.")};
+document.getElementById("clearReview").onclick=()=>{data.wrong={};save();renderReview()};
+updateStats();renderBank();
+</script>
+</body>
+</html>
